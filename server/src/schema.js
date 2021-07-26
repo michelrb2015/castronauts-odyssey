@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server');
+const { gql } = require("apollo-server");
 
 const typeDefs = gql`
   type Query {
@@ -6,6 +6,9 @@ const typeDefs = gql`
     tracksForHome: [Track!]!
   }
 
+  type Mutation {
+    incrementTrackViews(id: ID!): IncrementTrackViewsResponse!
+  }
   "A track is a group of Modules that teaches about a specific topic"
   type Track {
     id: ID!
@@ -19,6 +22,8 @@ const typeDefs = gql`
     length: Int
     "The number of modules this track contains"
     modulesCount: Int
+
+    numberOfViews: Int
   }
 
   "Author of a complete Track or a Module"
@@ -28,6 +33,17 @@ const typeDefs = gql`
     name: String!
     "Author's profile picture"
     photo: String
+  }
+
+  type IncrementTrackViewsResponse {
+    "Similar to HTTP status code, represents the status of the mutation"
+    code: Int!
+    "Indicates whether the mutation was successful"
+    success: Boolean!
+    "Human-readable message for the UI"
+    message: String!
+    "Newly updated track after a successful mutation"
+    track: Track
   }
 `;
 
